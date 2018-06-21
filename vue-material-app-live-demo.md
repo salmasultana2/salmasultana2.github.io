@@ -1,7 +1,9 @@
 ---
 layout: default
 ---
-## [Live Demo](/todo/index.html)
+## [Live Demo](vue-material-app-live-demo.html)
+
+[View live demo](/todo/index.html)
 
 
 [back](vue-material-app-script.html) <br>
