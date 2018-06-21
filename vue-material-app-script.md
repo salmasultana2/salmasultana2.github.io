@@ -16,7 +16,7 @@ In methods, we have `addTask()` which takes the input from `md-input`, stores it
 
 The `completeAll()` is a simple method to mark all items in the list as completed. The strike-through property is obtained by the class `.strike-through` which is included in our [style](./vue-material-app-style.html) section.
 
-`clearList()` too is a simple method to clear the items of a array and the `klass()` method is used to add the `strike-through` property for completed items. 
+`clearList()` too is a simple method to clear the items of a array.
 
 Below is the complete script which was used in my application: 
 
@@ -64,9 +64,6 @@ export default {
     },
     clearList: function () {
       this.tasks.splice(0,this.tasks.length);
-    },
-    klass(completed) {
-      return completed ? "strike-through" : "";
     },
     mounted: function() {
       this.$nextTick(function () {

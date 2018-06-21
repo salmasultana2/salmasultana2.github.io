@@ -39,21 +39,23 @@ I started by adding the card component and then inserted the rest of the compone
   <div id="app">
     <md-card md-with-hover>
       <md-card-header>
-        <div class="md-title">  card.title </div>
-        <div class="md-subhead"> card.subTitle </div>
+        <div class="md-title"> {{ card.title }} </div>
+        <div class="md-subhead"> {{ card.subTitle }} </div>
       </md-card-header>
       <md-card-content>
-      	<md-input-container id="newTaskContainer">
-          <md-field>
-            <md-input ref="newTask" id="newTask" v-model="newTask" @keyup.enter.native="addTask()" placeholder="What needs to be done?"></md-input>
-          </md-field>
-        </md-input-container>   
-        <md-list>
+       	      <md-input-container id="newTaskContainer">
+              <md-field>
+                <md-input ref="newTask" id="newTask" v-model="newTask" @keyup.enter.native="addTask()" placeholder="What needs to be done?"></md-input>
+              </md-field>
+            </md-input-container>   
+          <md-list>
           <md-list-item v-for="(task, index) in tasks" :key="task.id">
-            <div v-show="task.edit == false" v-bind:class="klass(task.completed)">
+            <div v-show="task.edit == false" v-bind:class="task.completed?'strike-through':''">
               <label @dblclick="task.edit=true"> {{task.text}} </label>
             </div>
-            <input v-show="task.edit == true" v-model="task.text" v-on:blur= "task.edit=false; $emit('update')" @keyup.enter="task.edit=false; $emit('update')" />
+            <input v-show="task.edit == true" v-model="task.text"
+                        v-on:blur= "task.edit=false; $emit('update')"
+                        @keyup.enter="task.edit=false; $emit('update')" />
             <md-checkbox ref="markTaskAsComplete" id="markTaskAsComplete" v-model="task.completed"></md-checkbox>
           </md-list-item>
         </md-list>
@@ -78,7 +80,7 @@ The `md-checkbox` element of `form` component is used to mark a to-do item as co
 
 The `md-button` component has been used twice in our application. One button is to mark all items as completed and the other is to clear the list. The button's event is `@click.native` which point to their respective functions. 
 
-## [Script and Style -->](./vue-material-app-script.html)
+## [Script -->](./vue-material-app-script.html)
 
 [back](./vue-material-app.html) <br>
 [home](./)
