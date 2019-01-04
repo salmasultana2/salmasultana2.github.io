@@ -1,0 +1,54 @@
+<!DOCTYPE html> <html> <head> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="stylesheet" type="text/css" href="/assets/css/materialize.css"> <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"> <title>Salma Sultana</title> </head> <body> <h2 id="script"><a href="./vue-material-app-script.html">Script</a></h2> <p>Let’s move on to the script section of our <em>App.vue</em> file.</p> <p>Our script should clearly define the variables and event handler methods.</p> <p>For example, in our app, the to-do items get stored in an array called <code class="highlighter-rouge">tasks[]</code> which has variables of its own - id, text, completed and edit with their initial values.</p> <p>Each todo-item stored in the <code class="highlighter-rouge">tasks[]</code> array will have an id, some text, completed, and edit values. Other than <code class="highlighter-rouge">tasks</code>, we have <code class="highlighter-rouge">newTask</code>, <code class="highlighter-rouge">nextID</code> to store the to-do items entered by the user.</p> <p>In methods, we have <code class="highlighter-rouge">addTask()</code> which takes the input from <code class="highlighter-rouge">md-input</code>, stores it in <code class="highlighter-rouge">tasks[]</code> and displays the same in the <code class="highlighter-rouge">md-list-item</code> element.</p> <p>The <code class="highlighter-rouge">completeAll()</code> is a simple method to mark all items in the list as completed. The strike-through property is obtained by the class <code class="highlighter-rouge">.strike-through</code> which is included in our <a href="./vue-material-app-style.html">style</a> section.</p> <p><code class="highlighter-rouge">clearList()</code> too is a simple method to clear the items of a array.</p> <p>Below is the complete script which was used in my application:</p> <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script&gt;
+export default {
+  name: "App",
+  data: function() {
+    return {
+      title: "",
+      card: {
+        title: "A simple todo list using Vue material",
+        subTitle: "by Salma Sultana"
+      },
+      tasks: [
+        {
+          id:0,
+          text:"Add your first todo",
+          completed: false,
+          edit: false
+        },
+      ],
+      newTask: "",
+      nextId: 1,
+     }
+  },
+  methods: {
+    addTask: function() {
+      if (this.newTask.trim() === "")
+        return;
+      this.tasks.push(
+        {
+          id: this.nextId,
+          text: this.newTask,
+          completed: false,
+          edit: false
+        }
+      );
+      this.newTask = "";
+      this.nextId++;
+    },
+    completeAll: function () {
+      for (const task of this.tasks)
+        task.completed = true;
+    },
+    clearList: function () {
+      this.tasks.splice(0,this.tasks.length);
+    },
+    mounted: function() {
+      this.$nextTick(function () {
+        var newTask = document.getElementById("newTask");
+        newTask.focus();
+      })
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre></div></div> <h2 id="live-demo-"><a href="./vue-material-app-live-demo.html">Live Demo –&gt;</a></h2> <p><a href="vue-material-app-coding.html">back</a> <br/> <a href="./">home</a></p> <script type="text/javascript" src="/assets/js/jquery-3.2.1.min.js"></script> <script type="text/javascript" src="/assets/js/materialize.min.js"></script> <script src="/assets/js/init.js"></script> </body> <footer class="page-footer"> <div class="footer-copyright" style="padding-left: 30px;"> <i class="material-icons" style="padding-right:5px; display:;">copyright</i><p style="display:;">2018 Copyright | All rights reserved</p> </div> </footer> </html>

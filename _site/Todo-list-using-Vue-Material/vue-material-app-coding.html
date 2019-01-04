@@ -1,0 +1,32 @@
+<!DOCTYPE html> <html> <head> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="stylesheet" type="text/css" href="/assets/css/materialize.css"> <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"> <title>Salma Sultana</title> </head> <body> <h2 id="coding-and-documentation"><a href="./vue-material-app-coding.html">Coding and Documentation</a></h2> <p>Once the installation is completed successfully, change into the <em>todo-list/src</em> directory to open the file <em>App.vue</em>. This is where we need to make the necessary changes. You may remove all the content which is in the <em>&lt;div&gt; &lt;/div&gt;</em> tag.</p> <p>We are using the following Vue Material components in our application.</p> <ol> <li> Card </li> <li> Input </li> <li> List </li> <li> Checkbox </li> <li> Button </li> </ol> <h3 id="features-of-our-application">Features of our application</h3> <p>Our application is a simple to-do list. It allows the user to:</p> <ul> <li> Add a task from textfield. </li> <li> Modify an existing task by double-clicking on that task. </li> <li> Mark a single task as complete by checking the checkbox OR </li> <li> Mark all tasks as complete at once by clicking the "Mark all as complete" Button. </li> <li> Clear the list by clicking the "Clear List" Button. </li> </ul> <p>I started by adding the card component and then inserted the rest of the components inside the card. Below is a code snippet used in my todo-list app. You may modify the theme and the components to customize your application.</p> <p><a href="https://github.com/Sultaness/Todo-List-using-Vue-Material-">View my full project on github</a> <br/></p> <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;template&gt;
+  &lt;div id="app"&gt;
+    &lt;md-card md-with-hover&gt;
+      &lt;md-card-header&gt;
+        &lt;div class="md-title"&gt;  &lt;/div&gt;
+        &lt;div class="md-subhead"&gt;  &lt;/div&gt;
+      &lt;/md-card-header&gt;
+      &lt;md-card-content&gt;
+       	      &lt;md-input-container id="newTaskContainer"&gt;
+              &lt;md-field&gt;
+                &lt;md-input ref="newTask" id="newTask" v-model="newTask" @keyup.enter.native="addTask()" placeholder="What needs to be done?"&gt;&lt;/md-input&gt;
+              &lt;/md-field&gt;
+            &lt;/md-input-container&gt;   
+          &lt;md-list&gt;
+          &lt;md-list-item v-for="(task, index) in tasks" :key="task.id"&gt;
+            &lt;div v-show="task.edit == false" v-bind:class="task.completed?'strike-through':''"&gt;
+              &lt;label @dblclick="task.edit=true"&gt;  &lt;/label&gt;
+            &lt;/div&gt;
+            &lt;input v-show="task.edit == true" v-model="task.text"
+                        v-on:blur= "task.edit=false; $emit('update')"
+                        @keyup.enter="task.edit=false; $emit('update')" /&gt;
+            &lt;md-checkbox ref="markTaskAsComplete" id="markTaskAsComplete" v-model="task.completed"&gt;&lt;/md-checkbox&gt;
+          &lt;/md-list-item&gt;
+        &lt;/md-list&gt;
+        &lt;md-button class="md-raised md-primary" @click.native="completeAll()"&gt; Mark all as completed &lt;/md-button&gt;
+        &lt;md-button class="md-raised md-primary" @click.native="clearList()"&gt; Clear List &lt;/md-button&gt;
+      &lt;/md-card-content&gt;
+    &lt;/md-card&gt; 
+    &lt;p&gt; Double click to edit an existing todo &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre></div></div> <p><br/> I added the hover effect to my card using the <code class="highlighter-rouge">md-with-hover</code> property. The card is divided into two self-explanatory sub-components <code class="highlighter-rouge">md-card-header</code> and <code class="highlighter-rouge">md-card-content</code>.</p> <p>The <code class="highlighter-rouge">md-card-header</code> is to display the title and subtitle using <code class="highlighter-rouge">classes</code> and the <code class="highlighter-rouge">md-card-content</code> contains the rest of the components.</p> <p>For input, we are using <code class="highlighter-rouge">md-input</code> element of <code class="highlighter-rouge">md-field</code> component. Each element should have an <strong>id</strong>, <strong>v-model</strong>, and <strong>event</strong>. The event of our textfield is <code class="highlighter-rouge">@keyup.enter.native</code> which will allow the to-do item to get added in the list once the user hits the enter key.</p> <p>The <code class="highlighter-rouge">md-list</code> component allows us to view the to-dos added in a list format using the <code class="highlighter-rouge">md-list-item</code> element. To display the to-dos added by the user, we are using the <code class="highlighter-rouge">v-for</code> directive. Each item in the list has an event <code class="highlighter-rouge">@dblclick</code> and a directive <code class="highlighter-rouge">v-show</code> which will allow the user to edit the to-do item.</p> <p>The <code class="highlighter-rouge">md-checkbox</code> element of <code class="highlighter-rouge">form</code> component is used to mark a to-do item as completed.</p> <p>The <code class="highlighter-rouge">md-button</code> component has been used twice in our application. One button is to mark all items as completed and the other is to clear the list. The button’s event is <code class="highlighter-rouge">@click.native</code> which point to their respective functions.</p> <h2 id="script-"><a href="./vue-material-app-script.html">Script –&gt;</a></h2> <p><a href="./vue-material-app.html">back</a> <br/> <a href="./">home</a></p> <script type="text/javascript" src="/assets/js/jquery-3.2.1.min.js"></script> <script type="text/javascript" src="/assets/js/materialize.min.js"></script> <script src="/assets/js/init.js"></script> </body> <footer class="page-footer"> <div class="footer-copyright" style="padding-left: 30px;"> <i class="material-icons" style="padding-right:5px; display:;">copyright</i><p style="display:;">2018 Copyright | All rights reserved</p> </div> </footer> </html>

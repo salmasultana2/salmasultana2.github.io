@@ -1,0 +1,86 @@
+<!DOCTYPE html> <html> <head> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="stylesheet" type="text/css" href="/assets/css/materialize.css"> <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"> <title>Salma Sultana</title> </head> <body> <h1 id="merkle-tree-full-code-in-javascript">Merkle Tree Full Code in Javascript</h1> <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">sha256</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"js-sha256"</span><span class="p">).</span><span class="nx">sha256</span>
+
+<span class="kd">const</span> <span class="nx">txs</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s2">"tx1"</span><span class="p">,</span>
+  <span class="s2">"tx2"</span><span class="p">,</span>
+  <span class="s2">"tx3"</span><span class="p">,</span>
+  <span class="s2">"tx4"</span><span class="p">,</span>
+  <span class="s2">"tx5"</span><span class="p">,</span>
+  <span class="s2">"tx6"</span><span class="p">,</span>
+  <span class="s2">"tx7"</span><span class="p">,</span>
+  <span class="s2">"tx8"</span><span class="p">,</span>
+  <span class="s2">"tx9"</span><span class="p">,</span>
+  <span class="s2">"tx10"</span><span class="p">,</span>
+  <span class="s2">"tx11"</span><span class="p">,</span>
+  <span class="p">]</span>
+<span class="kd">let</span> <span class="nx">hashedtxs</span> <span class="o">=</span> <span class="p">[],</span>
+  <span class="nx">branches</span> <span class="o">=</span> <span class="p">[],</span>
+  <span class="nx">branchCounter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nx">merkleRoot</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">txs</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`There are no transactions to be summarized`</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Transactions to be summarized: </span><span class="p">${</span><span class="nx">txs</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+  <span class="nx">makeEvenElements</span><span class="p">(</span><span class="nx">txs</span><span class="p">)</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Leaf nodes: </span><span class="p">${</span><span class="nx">txs</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="nx">tx</span> <span class="k">of</span> <span class="nx">txs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">hashedtxs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">sha256</span><span class="p">(</span><span class="nx">sha256</span><span class="p">(</span><span class="nx">tx</span><span class="p">)))</span>
+  <span class="p">}</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Leaf nodes hashed using double-SHA256 algorithm:"</span><span class="p">)</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">hashedtxs</span><span class="p">)</span>
+
+  <span class="kd">const</span> <span class="nx">rep</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">log2</span><span class="p">(</span><span class="nx">txs</span><span class="p">.</span><span class="nx">length</span><span class="p">))</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">rep</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">hashedtxs</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">merkleRoot</span> <span class="o">=</span> <span class="nx">hashedtxs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`The Merkle Root is </span><span class="p">${</span><span class="nx">merkleRoot</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">branches</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">merkleRoot</span> <span class="o">=</span> <span class="nx">branches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`The Merkle Root is </span><span class="p">${</span><span class="nx">merkleRoot</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">hashedtxs</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">branches</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">hashedtxs</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">item</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">branches</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+            <span class="nx">sha256</span><span class="p">(</span><span class="nx">sha256</span><span class="p">(</span><span class="nx">hashedtxs</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">concat</span><span class="p">(</span><span class="nx">hashedtxs</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])))</span>
+          <span class="p">)</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Branch: </span><span class="p">${(</span><span class="nx">branchCounter</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)}</span><span class="s2">`</span><span class="p">)</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">branches</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">branches</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">branches</span><span class="p">.</span><span class="nx">length</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">makeEvenElements</span><span class="p">(</span><span class="nx">branches</span><span class="p">)</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Now, Branch </span><span class="p">${</span><span class="nx">branchCounter</span><span class="p">}</span><span class="s2"> is: `</span><span class="p">)</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">branches</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">branches</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">branchesCopy</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="k">from</span><span class="p">(</span><span class="nx">branches</span><span class="p">)</span>
+      <span class="nx">branches</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="nx">branchesCopy</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">item</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">branches</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+            <span class="nx">sha256</span><span class="p">(</span><span class="nx">sha256</span><span class="p">(</span><span class="nx">branchesCopy</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">concat</span><span class="p">(</span><span class="nx">branchesCopy</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])))</span>
+          <span class="p">)</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Branch: </span><span class="p">${(</span><span class="nx">branchCounter</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)}</span><span class="s2">`</span><span class="p">)</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">branches</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">branches</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">branches</span><span class="p">.</span><span class="nx">length</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">makeEvenElements</span><span class="p">(</span><span class="nx">branches</span><span class="p">)</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Now, Branch </span><span class="p">${</span><span class="nx">branchCounter</span><span class="p">}</span><span class="s2"> is: `</span><span class="p">)</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">branches</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">makeEvenElements</span><span class="p">(</span><span class="nx">arr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Cannot build Merkle Tree for odd number of data elements.`</span><span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Duplicating the last transaction to achieve an even number of data elements.`</span><span class="p">)</span>
+    <span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">arr</span><span class="p">[</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div> <p><br/></p> <h2 id="merkle-tree-demo-"><a href="./merkle-tree-demo.html">Merkle Tree Demo –&gt;</a></h2> <p><a href="./">back</a></p> <script type="text/javascript" src="/assets/js/jquery-3.2.1.min.js"></script> <script type="text/javascript" src="/assets/js/materialize.min.js"></script> <script src="/assets/js/init.js"></script> </body> <footer class="page-footer"> <div class="footer-copyright" style="padding-left: 30px;"> <i class="material-icons" style="padding-right:5px; display:;">copyright</i><p style="display:;">2018 Copyright | All rights reserved</p> </div> </footer> </html>
