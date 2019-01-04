@@ -1,6 +1,6 @@
 title: Salma Sultana
 logo: /assets/img/logo.jpg
-description: This is my first blog and I'm excited to write posts. 
+description: Javascript Frontend Developer 
 show_downloads: true
 google_analytics:
-theme: jekyll-theme-minimal
+theme: jekyll-material-theme
