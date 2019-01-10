@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# Rewriting Mastering Bitcoin Examples using Bcoin
+# Mastering Bitcoin Examples using Bcoin
 
 In this post, we are rewriting some of the examples from the book [Mastering Bitcoin](https://github.com/bitcoinbook/bitcoinbook) by Andreas Antonopoulos using Javascript. Most of these programs require a bitcoin library to execute and for that we will use [bcoin](https://bcoin.io/). For string encodings, we will use [bstring](https://www.npmjs.com/package/bstring) and for cryptographic hash functions, we will use [bcrypto](https://www.npmjs.com/package/bcrypto).
 
@@ -51,10 +51,13 @@ In this post, we are rewriting some of the examples from the book [Mastering Bit
 
 13. [verify-merkleroot-of-block.js](./verify-merkleroot.html)* - fetches the merkle root of a block, fetches the list of transactions in that block and calculates the merkle root, verifying that the calculated merkle root is the same as the fetched one.
 
+
 *Require running a full node.
 
+
 <br>
-## [SHA256 in detail -->](./sha-256-description.html)
+
+## [Generate bitcoin address -->](./)
 
 [back](./)
 
